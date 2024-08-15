@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.nextcore.collectormodule.vibesensor.mapper.VibeSensorMapper">
+
+ <resultMap id="vibeThresResultMap" type="kr.co.nextcore.collectormodule.vibesensor.vo.VibeSensorDataVo">
+     <id property="sKey" column="skey"/>
+     <result property="psKey" column="pskey"/>
+     <result property="fltstatus" column="fltstatus"/>
+     <result property="tempUpperThres" column="v_temp_upper_thres"/>
+     <result property="tempLowerThres" column="v_temp_lower_thres"/>
+     <result property="vxThres" column="v_x_thres"/>
+     <result property="vyThres" column="v_y_thres"/>
+     <result property="vzThres" column="v_z_thres"/>
+     <result property="adxThres" column="ad_x_thres"/>
+     <result property="adyThres" column="ad_y_thres"/>
+     <result property="adzThres" column="ad_z_thres"/>
+     <result property="dxThres" column="d_x_thres"/>
+     <result property="dyThres" column="d_y_thres"/>
+     <result property="dzThres" column="d_z_thres"/>
+     <result property="hzxThres" column="hz_x_thres"/>
+     <result property="hzyThres" column="hz_y_thres"/>
+     <result property="hzzThres" column="hz_z_thres"/>
+ </resultMap>
+
+
+<select id="selectSkeyFromSensorId" resultType="java.lang.Integer">
+    select skey from nc_r_sensor_t_1
+    where sensor_id = #{sensorId}
+</select>
+
+<insert id ="insertData" parameterType="kr.co.nextcore.collectormodule.vibesensor.vo.VibeSensorDataVo">
+    insert into nc_p_day_vibe_raw_#{gw_gubun}_t
+    values(#{sKey}, #{rt}, #{getDate}, #{temp}, #{vx}, #{vy}, #{vz}, #{adx}, #{ady}, #{adz}, #{dx}, #{dy}, #{dz}, #{hzx}, #{hzy}, #{hzz})
+</insert>
+
+<select id="selectThresAndStatus" parameterType="java.lang.Integer" resultMap="vibeThresResultMap">
+    select sensor.fltstatus, sensor.pskey, vthres.*
+    from nc_r_sensor_t_1 sensor, nc_r_sensor_vibe_thres_t vthres
+    where 1=1
+    and sensor.skey = vthres.skey
+    and sensor.skey = #{skey}
+
+</select>
+
+<select id="selectConveyorMoveStatus" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select move_flag
+    from nc_r_conveyor_status_t
+    where skey = #{sKey}
+</select>
+
+</mapper>

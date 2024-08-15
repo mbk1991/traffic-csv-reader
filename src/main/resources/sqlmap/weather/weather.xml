@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.nextcore.collectormodule.weather.mapper.WeatherMapper">
+
+    <insert id="insert" parameterType="java.util.Map">
+        insert into nc_p_day_weather_t
+        values (#{getDate}, #{POP}, #{PTY}, #{PCP}, #{REH}, #{SNO}, #{SKY}, #{TMP}, #{TMN}, #{TMX}, #{UUU}, #{VVV}, #{WAV}, #{VEC}, #{WSD})
+    </insert>
+
+</mapper>

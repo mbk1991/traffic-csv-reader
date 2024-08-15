@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.nextcore.collectormodule.aroundview.mapper.ArvwMapper">
+
+    <select id="selectArvwGwIp" resultType="java.util.Map">
+        select skey, concat(left(ip,12),'254') as ip, sensor_id from nc_r_sensor_t_1 where sensor_gubun = '1'
+    </select>
+
+    <update id="updateNetworkFlagTrue" parameterType="java.lang.Long">
+        update nc_r_ship_status_t set network_flag = '1' where skey = #{skey}
+    </update>
+
+    <update id="updateNetworkFlagFalse" parameterType="java.lang.Long">
+        update nc_r_ship_status_t set network_flag = '0' where skey = #{skey}
+    </update>
+
+    <update id="updateArvwStatusFlag" parameterType="java.lang.String">
+        update nc_r_sensor_t_1 set fltstatus = #{flag} where sensor_id = #{sensorId}
+    </update>
+
+</mapper>

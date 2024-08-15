@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.nextcore.collectormodule.common.faProcess.FaultMapper">
+<select id="selsectSensorEventCodeDesc" parameterType="java.lang.String" resultType="java.lang.String">
+    select descr from nc_f_sensor_event_code_t
+    where facode = #{code}
+</select>
+
+</mapper>
