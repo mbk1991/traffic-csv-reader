@@ -14,4 +14,6 @@ public interface VibeSensorMapper {
     VibeSensorDataVo selectThresAndStatus(int skey);
 
     int selectConveyorMoveStatus(String sKey);
+
+    Map<String, String> selectBefore1MinuteAvg(String sKey);
 }

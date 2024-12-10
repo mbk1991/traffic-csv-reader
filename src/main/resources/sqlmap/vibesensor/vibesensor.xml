@@ -49,4 +49,12 @@
     where skey = #{sKey}
 </select>
 
+<select id ="selectBefore1MinuteAvg" parameterType="java.lang.String" resultType="java.util.Map">
+    select round(sum(hzx)/3, 1) as hzxavg, round(sum(hzy)/3, 1) as hzyavg, round(sum(hzz)/3, 1) as hzzavg
+    from nc_p_day_vibe_raw_2_t
+    where 1=1
+      and skey = #{sKey}
+      and getdate >= NOW() - INTERVAL 1 minute
+</select>
+
 </mapper>

@@ -292,12 +292,22 @@ public class VibeDataParsingService {
             int conveyorNo = (sKey.equals("16"))? 1:2;
             int flag = mapper.selectConveyorMoveStatus(sKey);
             boolean isMove = flag == 1;
-            if ((currHzx > hzxThres || currHzy > hzyThres || currHzz > hzzThres) && !isMove) {
+
+            // before 1minute avg, zero value filtering.
+            // 10,0,10,0,10,0  -> (10+0+10+0+10+0) / 3
+            Map<String,String> currAvgMap = mapper.selectBefore1MinuteAvg(sKey);
+            double hzxAvg = Double.parseDouble(currAvgMap.get("hzxavg"));
+            double hzyAvg = Double.parseDouble(currAvgMap.get("hzyavg"));
+            double hzzAvg = Double.parseDouble(currAvgMap.get("hzzavg"));
+
+
+            if ((hzxAvg > hzxThres || hzyAvg > hzyThres || hzzAvg > hzzThres) && !isMove) {
                 //conveyor move
                 String evtMsg = String.format("%d번 ", conveyorNo) + fService.getSensorEventCodeDesc(SensorEventCode.CONVEYOR_MOVE);
                 String faMsg = fService.makeFaultMessage(SensorEventCode.CONVEYOR_MOVE, sKey, getDate, evtMsg);
                 fService.sendAlarm(faMsg);
-            } else if ((currHzx <= hzxThres && currHzy <= hzyThres && currHzz <= hzzThres) && isMove) {
+
+            } else if ((hzxAvg <= hzxThres && hzyAvg <= hzyThres && hzzAvg <= hzzThres) && isMove) {
                 //conveyor stop
                 String evtMsg = String.format("%d번 ", conveyorNo) + fService.getSensorEventCodeDesc(SensorEventCode.CONVEYOR_STOP);
                 String faMsg = fService.makeFaultMessage(SensorEventCode.CONVEYOR_STOP, sKey, getDate, evtMsg);
