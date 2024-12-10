@@ -15,5 +15,5 @@ public interface VibeSensorMapper {
 
     int selectConveyorMoveStatus(String sKey);
 
-    Map<String, String> selectBefore1MinuteAvg(String sKey);
+    Map<String, Object> selectBefore1MinuteAvg(String sKey);
 }

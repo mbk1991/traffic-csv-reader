@@ -295,10 +295,10 @@ public class VibeDataParsingService {
 
             // before 1minute avg, zero value filtering.
             // 10,0,10,0,10,0  -> (10+0+10+0+10+0) / 3
-            Map<String,String> currAvgMap = mapper.selectBefore1MinuteAvg(sKey);
-            double hzxAvg = Double.parseDouble(currAvgMap.get("hzxavg"));
-            double hzyAvg = Double.parseDouble(currAvgMap.get("hzyavg"));
-            double hzzAvg = Double.parseDouble(currAvgMap.get("hzzavg"));
+            Map<String,Object> currAvgMap = mapper.selectBefore1MinuteAvg(sKey);
+            double hzxAvg = Double.parseDouble(currAvgMap.get("hzxavg").toString());
+            double hzyAvg = Double.parseDouble(currAvgMap.get("hzyavg").toString());
+            double hzzAvg = Double.parseDouble(currAvgMap.get("hzzavg").toString());
 
 
             if ((hzxAvg > hzxThres || hzyAvg > hzyThres || hzzAvg > hzzThres) && !isMove) {
